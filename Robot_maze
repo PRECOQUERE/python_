@@ -1,0 +1,19 @@
+--메이즈 로봇
+def turn_right() :
+    turn_left()
+    turn_left()
+    turn_left()
+
+while not at_goal():
+    if front_is_clear() :
+        if right_is_clear():
+            turn_right()
+            move()
+        else:
+            move()
+    else:
+        if right_is_clear():
+            turn_right()
+            move()
+        else :
+            turn_left()
