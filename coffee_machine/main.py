@@ -20,14 +20,14 @@ state = {
 }
 
 def calc_state(coffee) :
-    state["water"] = state["water"] - coffee["water"]
-    state["coffee"] = state["coffee"] - coffee["coffee"]
-    state["milk"] = state["milk"] - coffee["milk"]
+    state["water"]  = state["water"] - MENU[coffee]["water"]
+    state["coffee"] = state["coffee"] - MENU[coffee]["coffee"]
+    state["milk"]   = state["milk"] - MENU[coffee]["milk"]
 
 def coffee_order(coffee):
-    nis_water = coffee["water"]
-    nis_coffee = coffee["coffee"]
-    nis_milk = coffee["milk"]
+    nis_water   = MENU[coffee]["water"]
+    nis_coffee  = MENU[coffee]["coffee"]
+    nis_milk    = MENU[coffee]["milk"]
 
     if nis_water > state["water"] :
         print("죄송합니다. 현재 물이 부족합니다. 나중에 다시 이용해주세요.")
@@ -47,7 +47,7 @@ def calc_coin(coffee):
     N = float(input("How many Nickel is it?"))
     D = float(input("How many Dime is it?"))
     Q = float(input("How many Quarter is it?"))
-    price = float(coffee["cost"])
+    price = float( MENU[coffee]["cost"])
     cost = math.ceil(P * 0.01 + N * 0.05 + D * 0.1 + Q * 0.25, 1)
 
     change = cost - price
