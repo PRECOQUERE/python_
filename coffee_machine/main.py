@@ -25,9 +25,9 @@ def calc_state(coffee) :
     state["milk"]   = state["milk"] - MENU[coffee]["ingredients"]["milk"]
 
 def report_state():
-    print("현재 남은 water은 " + str(state["water"]) + "L 입니다.")
+    print("현재 남은 water은 " + str(state["water"]) + "ml 입니다.")
     print("현재 남은 coffee은 " + str(state["coffee"]) + "g 입니다.")
-    print("현재 남은 milk은 " + str(state["milk"]) + "L 입니다.")
+    print("현재 남은 milk은 " + str(state["milk"]) + "ml 입니다.")
 
 
 def coffee_order(coffee):
