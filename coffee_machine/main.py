@@ -14,20 +14,26 @@ clear = lambda:os.system('cls')
 
 state = {
     "water": 300,
-    "milk" : 200,
     "coffee": 100,
+    "milk" : 200,
     "money": 0
 }
 
 def calc_state(coffee) :
-    state["water"]  = state["water"] - MENU[coffee]["water"]
-    state["coffee"] = state["coffee"] - MENU[coffee]["coffee"]
-    state["milk"]   = state["milk"] - MENU[coffee]["milk"]
+    state["water"]  = state["water"] - MENU[coffee]["ingredients"]["water"]
+    state["coffee"] = state["coffee"] - MENU[coffee]["ingredients"]["coffee"]
+    state["milk"]   = state["milk"] - MENU[coffee]["ingredients"]["milk"]
+
+def report_state():
+    print("현재 남은 water은 " + str(state["water"]) + "L 입니다.")
+    print("현재 남은 coffee량은 " + str(state["coffee"]) + "g 입니다.")
+    print("현재 남은 milk량은 " + str(state["milk"]) + "L 입니다.")
+
 
 def coffee_order(coffee):
-    nis_water   = MENU[coffee]["water"]
-    nis_coffee  = MENU[coffee]["coffee"]
-    nis_milk    = MENU[coffee]["milk"]
+    nis_water   = MENU[coffee]["ingredients"]["water"]
+    nis_coffee  = MENU[coffee]["ingredients"]["coffee"]
+    nis_milk    = MENU[coffee]["ingredients"]["milk"]
 
     if nis_water > state["water"] :
         print("죄송합니다. 현재 물이 부족합니다. 나중에 다시 이용해주세요.")
@@ -43,12 +49,12 @@ def coffee_order(coffee):
     print(f"{coffee} 나왔습니다. 맛있게 드세요!")
 
 def calc_coin(coffee):
-    P = float(input("How many Penny is it?"))
-    N = float(input("How many Nickel is it?"))
-    D = float(input("How many Dime is it?"))
-    Q = float(input("How many Quarter is it?"))
+    P = float(input("How many Penny is it? "))
+    N = float(input("How many Nickel is it? "))
+    D = float(input("How many Dime is it? "))
+    Q = float(input("How many Quarter is it? "))
     price = float( MENU[coffee]["cost"])
-    cost = math.ceil(P * 0.01 + N * 0.05 + D * 0.1 + Q * 0.25, 1)
+    cost = math.ceil(P * 0.01 + N * 0.05 + D * 0.1 + Q * 0.25)
 
     change = cost - price
     if change < 0 :
@@ -65,7 +71,14 @@ clear()
 rs = 1
 while(rs > 0):
     guess = input("What would you like? (latte/espresso/cappuccino) ")
-    if guess == "off": rs = 0
-    if guess == "report": rs = 1
-    rs = calc_coin(guess)
-    coffee_order(guess)
+    if guess not in MENU :
+        if guess == "off" : 
+            rs = 0
+        elif guess == "report" : 
+            report_state()
+        else : 
+            print("해당 메뉴는 취급하지 않습니다. 다른 음료를 골라주세요.")
+        continue        
+    else :
+        rs = calc_coin(guess)
+        if rs == 1: coffee_order(guess) 
