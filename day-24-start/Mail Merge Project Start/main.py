@@ -18,3 +18,5 @@ for dear in list_dear:
     with open(f"day-24-start/Mail Merge Project Start/Output/{dear}.txt", mode='w') as file:
         file.write(dear_letter)
 
+file_dear.close()
+file_letter.close()
