@@ -1,4 +1,5 @@
 from tkinter import *
+import math
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -9,8 +10,19 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
+timer = None
 # ---------------------------- TIMER RESET ------------------------------- # 
 
+def reset_timer():
+    global  reps
+    reps = 0
+
+    window.after_cancel(timer)
+    title_label.config(text="Timer")
+    canvas.itemconfig(timer_text, text="00:00")
+    check_mark.config(text="")
+
+    
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer() :
     global reps
@@ -37,17 +49,25 @@ def count_down(count) :
     # count_sec = f"0{count_sec}"
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
     if count > 0 :
-        window.after(1000, count_down, count-1)
+        global timer
+        timer = window.after(1000, count_down, count-1)
     else :
         start_timer()
+        marks = ""
+        work_session = math.floor(reps/2)
+        for _ in range(work_session) :
+            marks += "✔"
+        check_mark.config(text=marks)
+        # if reps % 2 == 0 :
+        #     check_mark.config(text=check_mark["text"] + "✔")        
 # ---------------------------- UI SETUP ------------------------------- #
 
 window = Tk()
 window.title("Pomodoro")
-window.config(padx=100, pady=30, bg=YELLOW)
+window.config(padx=100, pady=50, bg=YELLOW)
 
 #text
-title_label = Label(text="Timer", font=(FONT_NAME, 45), fg=GREEN, bg=YELLOW)
+title_label = Label(text="Timer", font=(FONT_NAME, 50), fg=GREEN, bg=YELLOW)
 title_label.grid(row=0, column=1)
 
 #canvas
@@ -62,11 +82,11 @@ button_start = Button(text="Start", highlightthickness=0, command=start_timer)
 button_start.grid(row=2, column=0)
 
 #button_reset
-button_reset = Button(text="Reset", highlightthickness=0)
+button_reset = Button(text="Reset", highlightthickness=0, command=reset_timer)
 button_reset.grid(row=2, column=2)
 
 #check
-label_ck = Label(bg=YELLOW, fg=GREEN, font=(20))
-label_ck.grid(row=3, column=1)
+check_mark = Label(text="",bg=YELLOW, fg=GREEN, font=(20))
+check_mark.grid(row=3, column=1)
 
 window.mainloop()
